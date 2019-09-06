@@ -1,0 +1,291 @@
+su 用户名  切换用户
+#  代表root用户
+$   代表普通用户
+cd 路径，切换到某个目录
+cd .. 上层目录
+cd - 切换到上次所在的目录
+cd ~ 切换到当前用户的家目录
+ls 列出目录下的文件夹和文件
+ls-l 列出目录下的文件夹和文件以及详细信息
+ll  列出目录下的文件夹和文件以及详细信息
+ll -a 列出隐藏的文件
+mkdir 创建目录
+mkdir -p 级联创建目录，
+touch  文件名  创建文件
+file . 文件名， 判断文件类型，（根据内容来判断文件的类型，而不是后缀名）
+pwd  当前工作目录
+rmdir 删除空目录
+
+java环境变量，加maven
+export JAVA_HOME=/usr/local/jdk1.8.0_161
+export MAVEN_HOME=/usr/local/apache-maven-3.1.1
+export PATH=$PATH:$JAVA_HOME/bin:$MAVEN_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
+redis-cli --help  帮助，可以查看一些命令
+ifconfig 查看ip网络连接信息
+vim 编辑器 a i 进入编辑模式   esc退出键，退出编辑模式，进入命名模式。：回到最底部 q退出 w保存， 可wq！ 强制保存退出
+service --status-all  查看正在运行的服务
+service --status-all | grep httpd
+sercice httpd start  开启httpd  web服务， 浏览器输入可以直接访问 ，防火墙关掉，
+cd var/www/html 目录相当于tomcat的webapps目录，存放html可以直接访问，也可以创建文件夹，中存放文件，MP3等等，也可以访问
+chkconfig httpd on  开机自启httpd
+sercice httpd stop
+service  iptables status  查看防火墙状态
+
+
+克隆虚拟机以后需要改三点
+1./etc/udev/rules.d/70-persistent-net.rules  修改网卡  将ent0删掉，将下面的ent1改为ent0
+2.etc/sysconfig/network  修改主机名称
+3.etc/hosts  修改主机映射，域名映射
+
+/etc/hosts  主机映射配置目录，（域名）
+/etc/sysconfig/network：hostname   主机名称目录
+cat /etc/passwd  查看所有用户
+useradd 用户名  添加用户
+
+
+rm -rf *  删除文件
+/etc/sudoers  目录下更改权限，复制一份root权限，改下用户名即可，使用要加sudo  命令 。。。。。
+d--文件类型（文件夹）   rwx---代表当前用户的权限（r可读w可写x可执行）  r-x 所属组的权限（可读可执行）  r-x其他用户的权限（可读可执行）
+drwxr-xr-x.   3 root root  4096 7月  11 21:03 media
+tar-zcvf a.tar.gz   文件   ：将文件打包并压缩
+tar-zxvf  a.tar.gz  解包解压缩
+tar-zxvf a.tar.gz -C 目录  解压缩到指定目录
+
+进程管理：
+netstat -antp  查看占用的端口
+
+  ps  -aux  查看进程的信息  经常和klli配合使用，
+  kill -9  程序的pid   杀死进程
+  pstree    查看图形父子进程
+
+ssh-keygen -t rsa -C "953038659@qq.com"
+scp -r  /etc/hosts   root@centos2:/ect/hosts     将一台机器的文件复制到另一台虚拟机    
+		从/etc/hosts  用户主机(如果没有域名映射就写ip)root@centos2:   /ect/hosts  复制到哪里的路径
+配置免密登陆
+1.生成密钥一对/root/.ssh 
+ssh-keygen  回车三次
+[root@centos1 .ssh]# ll
+总用量 8
+-rw-------. 1 root root 1675 7月  18 01:10 id_rsa  私钥
+-rw-r--r--. 1 root root  394 7月  18 01:10 id_rsa.pub  公钥
+2.将公钥写入到授权文件
+cat id_rsa.pub >> authorized_keys
+3.将授权文件发送给另一台虚拟机
+scp -r authorized_keys root@centos2:~/.ssh
+测试
+ssh centos1  看是否可以连接
+[root@localhost mnt]# java -version
+几种安装软件得方式
+java version "1.7.0_45"    1.解压方式=====================================================================
+OpenJDK Runtime Environment (rhel-2.4.3.3.el6-x86_64 u45-b15)
+OpenJDK 64-Bit Server VM (build 24.45-b08, mixed mode)
+You have new mail in /var/spool/mail/root
+[root@localhost mnt]# rpm -qa | grep -i jdk  查看已安装得jdk
+[root@localhost mnt]# rpm -e --nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64  卸载linux自带得jdk
+去oracle 官网下载jdk  rpm包，然后复制到虚拟机目录 ，执行rpm -ivh jdk-8u211-linux-x64.rpm  进行安装，rpm安装方式不需要设置环境变量
+或者下载tar.zg包，解压即可，源码编译方式安装需要设置环境变量
+2.    rpm  包安装方式
+rpm -ivh  rpm软件包，安装rpm包
+rpm -qa|grep -i mysql  查看是否安装mysql【
+
+[root@centos1 ~]# service mysqld stop
+停止 mysqld：                                              [确定]
+[root@centos1 ~]# service mysqld start
+正在启动 mysqld：                                          [确定]
+
+虚拟机中mysql  需要授权，其他主机才能进行连接
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> FLUSH   PRIVILEGES;
+Query OK, 0 rows affected (0.09 sec)
+
+d50582e6
+
+zookeeoer 安装==============================================================================
+官网下载包zookeeper-3.4.14/
+cd /usr/local
+目录下创建zookeeper
+   将下载得包复制进来，
+解压tar -zxvf zookeeper-3.4.1.tar.gz
+3.
+进入zookeeper目录创建data 以及logs
+
+cd /usr/local/zookeeper-3.4.6
+
+mkdir data
+
+mkdir logs
+
+4.将 zookeeper-3.4.6/conf 目录下的 zoo_sample.cfg 文件拷贝一份，命名为为zoo.cfg
+cd conf
+cp zoo_sample.cfg zoo.cfg
+
+5.修改zoo.cfg文件
+ 
+dataDir=/usr/local/zookeeper-3.4.6/data 
+
+dataLogDir=/usr/local/zookeeper-3.4.6/logs
+ 
+
+6.启动zookeeper,通过查看线程测试是否安装成功
+  ，在bin目录下
+	zkServer.sh  start   开启
+	zkServer.sh  status  查看状态
+	zkServer.sh  stop   停止
+	ZooKeeper    的shlle命令
+	port cmd args  
+	stat path [watch]   查看znode节点状态
+	set path data [version]  更新节点数据
+	ls path [watch]   查看节点    列如：ls/   ls /lyj    可以添加监听，监听事件为子节点变化事件 ，添加监听后面直接写watch，监听一次，只生效一次
+	delquota [-n|-b] path
+	ls2 path [watch]
+	setAcl path acl
+	setquota -n|-b val path
+	history   查看历史操作过的命令
+	redo cmdno
+	printwatches on|off
+	delete path [version]
+	sync path
+	listquota path
+	rmr path  删除节点
+	get path [watch]   获取节点信息   添加监听，监听事件为节点变化事件
+	create [-s] [-e] path data acl   创建节点     -e 代表临时节点，-s代表有编号节点，不加则反之持久，无编号
+	addauth scheme auth
+	quit     退出客户端连接
+	getAcl path
+	close 
+	connect host:port
+
+	集群的搭建 启多台linux的zookeeper
+	配置:zoo.cof 配置文件增加   data下创建一个myid文件，三台分别写1，2，3，ip与myid一一对应，然后启动三台机器
+	启动以后会根据ip查找虚拟机，zoo.cfg配置文件中dataDir配置的路径，查找myid文件中的id
+		server.1=192.168.73.181:2888:3888
+		server.2=192.168.73.182:2888:3888
+		server.3=192.168.73.183:2888:3888
+		解读：
+		Server.A=B:C:D
+		A 是一个数字，表示这个是第几号服务器
+		B 是这个服务器的 ip 地址
+		C 是这个服务器与集群中的 Leader 服务器交换信息的端口
+		D 是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的Leader，而这个端口就是用来执行选举时服务器相互通信的端口
+	zkoopeeer  监听事件 1. znode节点数据被修改2.znode节点创建3.znode节点删除4.znode子节点发生变化
+	添加监听sell命令 1. ls path [watch]  子节点添加监听   getChildren() 
+		2. get path [watch]   本节点内容变化  getData()
+		  exists()
+
+	触发监听：创建，set，delete
+	#退出并保存
+	先按ESC键，输入:wq!回车
+
+zookeeper的应用：分布式系统中数据的一致性。主要是围绕它的文件系统，和监听机制进行的，
+ *		1.比如说在分布式文件系统中，多台服务器去连接zookeeper
+ *，  		他们都可以看作是zookeeper的客户端，如果一台服务器更改了文件名，那么就可以在zookeeper创建一个znode节点，
+ *		其他客户端主要监听这个节点就可以做到及时同步的问题，也可以避免文件重复命名，持久无编号的znode节点
+ *		2.配置文件管理
+ *		3.分布式锁
+		 客户端可以创建临时节点，当客户端会话终止或超时后Zookeeper会自动删除临时节点。该特性可以用来避免死锁。
+		检查锁节点是否已经创建，若未创建则尝试创建一个临时节点
+		若临时节点创建成功说明已成功加锁。若持有锁的客户端崩溃或网络异常无法维持Session，锁节点会被删除不会产生死锁。
+		若临时节点创建失败说明加锁失败，等待加锁。watch锁节点exists事件，当接收到节点被删除的通知后再次尝试加锁。
+		因为Zookeeper中的Watch是一次性的，若再次尝试加锁失败，需要重新设置Watch。
+		2：时序锁：创建一个永久节点作为锁节点，试图加锁的客户端在锁节点下创建临时顺序节点。Zookeeper会保证子节点的有序性。
+			若锁节点下id最小的节点是为当前客户端创建的节点，说明当前客户端成功加锁。
+			否则加锁失败，订阅上一个顺序节点。当上一个节点被删除时，当前节点为最小，说明加锁成功。
+			操作完成后，删除锁节点释放锁。
+			该方案每次锁释放时只需要通知一个客户端，避免惊群现象发生。
+
+该方案的特征是优先排队等待的客户端会先获得锁，这种锁称为公平锁。而锁释放后，所有客户端重新竞争锁的方案称为非公平锁。	
+操作完成后，删除锁节点释放锁。
+ *      4.分布式列队
+redis 笔记 高可用==========================================================================
+RDB 
+命令1.手动 save  讲数据刷到磁盘 做持久化，期间redis工作线程阻塞停止操作
+        bgsave  新启一个子线程进行写入磁盘，做持久化
+2.save m n ，自动配置自动触发bgsave，redis.conf配置文件如下
+m 代表秒 n代表几次，900秒内发生一次数据存储，就触发bgsave命令刷入到磁盘，三个时间点卡着，进行合理刷入
+ave 900 1
+save 300 10
+save 60 10000
+
+AOF
+# appendfsync always 每次收到命令就写入磁盘
+appendfsync everysec  默认每秒强行写入磁盘一次
+# appendfsync no  直接不做写入
+
+redis读写分离配置  redis启动一会会在配置文件中找这个配置，然后连接到主机， 主机将会发起一起bgsave（内存同步到磁盘）
+	然后在将主机的数据拉过来进行同步。此机器为从节点，从节点只能读，不可以写，主节点可以读写
+# slaveof <masterip> <masterport>ip 加端口   注意，需要关闭防火墙sentOs6的命令chkconfig iptables off(关闭开机自启，7的版本命令有差异)，# bind 127.0.0.1关掉 
+redis-cli -p 端口号   客户端连接redis  exit 退出客户端
+ps aux | grep redis  查看redis进程
+ctrl  c 退出redis
+查看redis是否在运行： ps aux | grep redis
+
+
+启动redis     redis-server redis-conf
+
+
+关闭redis     redis-cli shutdown
+
+
+当设置密码后，上面的关闭命令无效：带密码输入：????redis-cli -a [password] ????
+回车后输入：shutdown
+
+即可关闭redis，输入exit 退出。
+
+ 
+
+springmvc访问流程
+1.请求首先到达dispachSevlte，（web.xml中配置，/所有路径）
+2.dispachSevlte，通过hadelMappers映射器找到对应的hadel，返回HandlerExecutionChain（就是controller，和拦截器数组）
+   hadelMappers（有两种，由springmvc jar包配置文件中定义，一种是我们自己实现Controller接口，
+   		然后基于xml配置文件使用bean标签注入，一种是使用注解@Controller注解，）
+3.返回hadel以后再去匹配对应的适配器adpert（有3种适配器，基于注解，和impls实现，还有一种未知，根据你hadel的不同处理方式不同）
+4.调用controller之前，执行拦截器链
+5.然后判断是get还是post调用controller执行业务逻辑，返回mv
+
+spring容器和springmvc容器的关系是父子容器的关系。spring容器是父容器，springmvc是子容器。
+在子容器里可以访问父容器里的对象，但是在父容器里不可以访问子容器的对象，说的通俗点就是，
+在controller里可以访问service对象，但是在service里不可以访问controller对象
+
+
+
+一．用SecureCRT来上传和下载文件
+1.在使用SecureCRT上传下载之前需要给服务器安装lrzsz：
+
+yum -y install lrzsz (注：参数-y中"y"的意思是：当安装过程提示选择全部为"yes")
+2、
+命令sz、rz的使用方法：
+rz中的r意为received（接收），输入rz时、意为服务器接收文件，既将文件从本地上传到服务器。
+
+
+sz中的s意为send（发送），输入sz时、意为服务器要发送文件，既从服务器发送文件到本地，或是说本地从服务器上下载文件。
+
+
+注：不论是send还是received，动作都是在服务器上发起的。
+
+rz用法：
+
+注：上传的时候，
+如果上传到的linux目录有同名的文件，是无法上传的，需要先删掉linux上的同名文件。
+
+1、输入rz，回车后，会出现文件选择对话框，选择需要上传文件，一次可以指定多个文件，
+上传到服务器的路径为当前执行rz命令的目录。
+———————————————
+jenkins  安装
+1.下载rpm包
+rpm -ivh  rpm包
+安装完成后，主要文件目录如下
+
+war包目录：/usr/lib/jenkins/jenkins.war
+
+配置文件：/etc/sysconfig/jenkins
+
+home目录：/var/lib/jenkins
+
+日志目录：/var/log/jenkins/jenkins.log
+
+2.配置jdk路径 vi  /etc/rc.d/init.d/jenkins
+3.修改端口，修改访问用户  vi  /etc/sysconfig/jenkins
